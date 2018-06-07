@@ -1,0 +1,17 @@
+<div class="layout-header">
+  <div class="layout-header-container">
+    <ng-content select="[header]"></ng-content>
+  </div>
+</div>
+<div class="layout-body">
+  <div class="layout-body-container" (betterScroll)="betterScroll($event)">
+    <div class="layout-body-scroll">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
+<div class="layout-footer">
+  <div class="layout-footer-container">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</div>
