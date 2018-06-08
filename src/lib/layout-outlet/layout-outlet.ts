@@ -21,9 +21,6 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
             footerHeight: val
         });
     }
-    scroll: BetterScrollDirective;
-    @Output() pullingDown: EventEmitter<any> = new EventEmitter();
-    @Output() pullUpLoad: EventEmitter<any> = new EventEmitter();
     constructor(
         public icss: Iwe7IcssService,
         public ele: ElementRef
@@ -33,22 +30,5 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
             footerHeight: '45px'
         });
         this.icss.init(this, this.ele).subscribe();
-    }
-
-    betterScroll(e: BetterScrollDirective) {
-        this.scroll = e;
-        this.scroll.pullingDown().subscribe((res: any) => {
-            setTimeout(() => {
-                res.finishPullDown();
-            }, 2000);
-            this.pullingDown.emit(res);
-        });
-
-        this.scroll.pullUpLoad().subscribe((res: any) => {
-            setTimeout(() => {
-                res.finishPullUp();
-            }, 2000);
-            this.pullUpLoad.emit(res);
-        });
     }
 }
