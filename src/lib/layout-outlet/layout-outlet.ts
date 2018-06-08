@@ -1,4 +1,4 @@
-import { BetterScrollDirective } from './../../../../iwe7-better-scroll/src/lib/better-scroll';
+import { BetterScrollDirective } from 'iwe7-better-scroll';
 import { Iwe7IcssService } from 'iwe7-icss';
 import { BehaviorSubject } from 'rxjs';
 import { Component, Input, Output, ElementRef, EventEmitter } from '@angular/core';
