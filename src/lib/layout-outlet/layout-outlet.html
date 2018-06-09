@@ -5,11 +5,23 @@
 </div>
 <div class="layout-body">
   <div class="layout-body-container">
-      <ng-content></ng-content>
+    <ng-content></ng-content>
   </div>
 </div>
 <div class="layout-footer">
   <div class="layout-footer-container">
     <ng-content select="[footer]"></ng-content>
+  </div>
+</div>
+
+<div class="layout-menu">
+  <div class="layout-menu-container">
+    <ng-container #menuView></ng-container>
+  </div>
+</div>
+
+<div class="layout-mask" (click)="hideMenu()">
+  <div class="layout-mask-container">
+    <ng-content select="[mask]"></ng-content>
   </div>
 </div>

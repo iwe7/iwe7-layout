@@ -7,6 +7,10 @@
   bottom: 0px;
   display: flex;
   flex-direction: column;
+  --headerHeight: 45px;
+  --footerHeight: 45px;
+  --maskDisplay: none;
+  --menuWidth: 0px;
 }
 
 .layout-body {
@@ -21,12 +25,14 @@
     right: 0px;
     bottom: 0px;
     box-sizing: border-box;
+    overflow: hidden;
   }
 }
 
 .layout-header {
   height: var(--headerHeight);
   position: relative;
+  transition: all .2s ease-out;
   .layout-header-container {
     display: block;
     position: absolute;
@@ -34,12 +40,14 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
+    overflow: hidden;
   }
 }
 
 .layout-footer {
   height: var(--footerHeight);
   position: relative;
+  transition: all .2s ease-out;
   .layout-footer-container {
     display: block;
     position: absolute;
@@ -47,5 +55,39 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
+    overflow: hidden;
   }
+}
+
+.layout-menu {
+  position: absolute;
+  left: var(--left);
+  bottom: var(--bottom);
+  top: var(--top);
+  width: var(--width);
+  height: var(--height);
+  right: var(--right);
+  background: #fff;
+  box-shadow: 1px 1px 8px #434343;
+  z-index: 2;
+  transition: var(--transition) .3s ease-out;
+  overflow: hidden;
+  .layout-menu-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.layout-mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  overflow: hidden;
+  transition: all .3s ease-out;
+  display: var(--maskDisplay);
 }
