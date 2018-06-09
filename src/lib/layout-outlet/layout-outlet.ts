@@ -1,14 +1,26 @@
-import { Iwe7MenuService } from './../menu/iwe7-menu.service';
-import { Iwe7LayoutService } from './../iwe7-layout.service';
+import { Iwe7MenuPositionService } from './../controls/iwe7-menu-position';
+import { Iwe7HeaderService } from './../controls/iwe7-header.service';
+import { Iwe7FooterService } from './../controls/iwe7-footer.service';
+import { Iwe7MaskService } from './../controls/iwe7-mask.service';
+import { Iwe7MenuService } from './../controls/iwe7-menu.service';
+
 import { Iwe7IcssService } from 'iwe7-icss';
 import { BehaviorSubject } from 'rxjs';
-import { Component, Input, ElementRef, ViewContainerRef, ViewChild, ComponentFactory } from '@angular/core';
+import {
+    Component, Input, ElementRef,
+    ViewContainerRef, ViewChild, ComponentFactory
+} from '@angular/core';
 
 @Component({
     selector: 'layout-outlet',
     templateUrl: 'layout-outlet.html',
     styleUrls: ['./layout-outlet.scss'],
-    providers: [Iwe7LayoutService, Iwe7MenuService],
+    providers: [
+        Iwe7MenuService,
+        Iwe7MaskService,
+        Iwe7HeaderService,
+        Iwe7FooterService
+    ],
     exportAs: 'layoutOutlet'
 })
 export class LayoutOutletComponent extends BehaviorSubject<any> {
@@ -49,18 +61,18 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         this.menu.setView(val);
     }
 
-    get menuView$() {
-        return this.layout.menuView$;
-    }
-
     constructor(
         public icss: Iwe7IcssService,
         public ele: ElementRef,
-        public layout: Iwe7LayoutService,
-        public menu: Iwe7MenuService
+        // 控制器
+        public menu: Iwe7MenuService,
+        public mask: Iwe7MaskService,
+        public header: Iwe7HeaderService,
+        public footer: Iwe7FooterService,
+
     ) {
         super({});
-        layout.showHeader$.subscribe(res => {
+        header.subscribe(res => {
             if (res) {
                 this.next({
                     headerHeight: this._headerHeight
@@ -71,7 +83,7 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
                 });
             }
         });
-        this.layout.showFooter$.subscribe(res => {
+        footer.subscribe(res => {
             if (res) {
                 this.next({
                     footerHeight: this._footerHeight
@@ -82,18 +94,7 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
                 });
             }
         });
-        this.layout.showMenu$.subscribe(res => {
-            if (res) {
-                this.next({
-                    menuWidth: this._menuWidth
-                });
-            } else {
-                this.next({
-                    menuWidth: '0px'
-                });
-            }
-        });
-        this.layout.showMask$.subscribe(res => {
+        mask.subscribe(res => {
             if (res) {
                 this.next({
                     maskDisplay: 'block'
@@ -104,51 +105,50 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
                 });
             }
         });
-        this.menu.menuPosition$.subscribe(res => {
+        this.menu.subscribe(res => {
             this.next(res);
         });
         this.icss.init(this, this.ele).subscribe();
     }
 
-    showHeader(): Iwe7LayoutService {
-        this.layout.showHeader();
-        return this.layout;
+    showHeader(): void {
+        this.header.show();
     }
 
-    showFooter(): Iwe7LayoutService {
-        this.layout.showFooter();
-        return this.layout;
+    showFooter(): void {
+        this.footer.show();
     }
 
-    switchHeader(): Iwe7LayoutService {
-        this.layout.switchHeader();
-        return this.layout;
+    switchHeader(): void {
+        this.header.switch();
     }
 
-    hideHeader(): Iwe7LayoutService {
-        this.layout.hideHeader();
-        return this.layout;
+    hideHeader(): void {
+        this.header.hide();
     }
 
-    hideFooter(): Iwe7LayoutService {
-        this.layout.hideFooter();
-        return this.layout;
+    hideFooter(): void {
+        this.footer.hide();
     }
 
-    switchFooter(): Iwe7LayoutService {
-        this.layout.switchFooter();
-        return this.layout;
+    switchFooter(): void {
+        this.footer.switch();
     }
 
     hideMenu(): Iwe7MenuService {
         this.menu.hide();
-        this.layout.hideMask();
+        this.mask.hide();
         return this.menu;
     }
 
-    showMenu(position: string = 'left', size: number = 260, comp?: ComponentFactory<any>, data?: any, ): Iwe7MenuService {
+    showMenu(
+        position: string = 'left',
+        size: number = 260,
+        comp?: ComponentFactory<any>,
+        data?: any
+    ): Iwe7MenuService {
         this.menu.show(position, size, comp, data);
-        this.layout.showMask();
+        this.mask.show();
         return this.menu;
     }
 }

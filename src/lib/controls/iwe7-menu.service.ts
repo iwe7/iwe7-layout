@@ -1,41 +1,35 @@
-import { Iwe7LayoutService } from './../iwe7-layout.service';
-import { MenuEmptyComponent } from './menu-empty/menu-empty';
+import { MenuEmptyComponent } from './../menu/menu-empty/menu-empty';
+import { Iwe7MaskService } from './iwe7-mask.service';
 import { Observable } from 'rxjs';
 import { Injector, ComponentFactoryResolver } from '@angular/core';
 import { ViewContainerRef, ComponentFactory } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Iwe7MenuPositionService } from './iwe7-menu-position';
 import { Injectable } from '@angular/core';
-import { LayoutMenuInterface, LayoutMenuDefault } from './iwe7-menu-position';
 import { CustomInjector, CUSTOM_DATA, CUSTOM_CLOSE } from 'iwe7-core';
 
 @Injectable()
-export class Iwe7MenuService {
-    // position left top left right
-    // size 260
-    position: string = 'left';
-    menuPosition$: BehaviorSubject<LayoutMenuInterface> = new BehaviorSubject(LayoutMenuDefault);
-    _showMenu: boolean = false;
-
+export class Iwe7MenuService extends BehaviorSubject<any> {
+    private _position: string = 'left';
+    private _show: boolean = false;
     beforeOpen: Subject<any> = new Subject();
-    // 关闭
     afterClose: Subject<any> = new Subject();
-
-    menuView: ViewContainerRef;
-
+    view: ViewContainerRef;
     constructor(
-        public iwe7MenuPosition: Iwe7MenuPositionService,
+        public iwe7Position: Iwe7MenuPositionService,
         public injector: Injector,
         public resover: ComponentFactoryResolver,
-        public layout: Iwe7LayoutService
-    ) { }
+        public mask: Iwe7MaskService
+    ) { 
+        super(false);
+    }
 
     setView(view: ViewContainerRef) {
-        this.menuView = view;
+        this.view = view;
     }
 
     show<T>(position: string = 'left', size: number = 260, comp?: ComponentFactory<T>, data?: any): Observable<any> {
-        const positionObj = this.iwe7MenuPosition._menuPosition[position];
+        const positionObj = this.iwe7Position._menuPosition[position];
         let extObj = {};
         if (position === 'left' || position === 'right') {
             extObj = {
@@ -50,12 +44,11 @@ export class Iwe7MenuService {
                 transition: 'height'
             };
         }
-        this.position = position;
-        const outlet = {
+        this._position = position;
+        this.next({
             ...positionObj,
             ...extObj
-        };
-        this.menuPosition$.next(outlet);
+        });
         const fn = (...args: any[]) => {
             this.hide(...args);
         };
@@ -64,32 +57,32 @@ export class Iwe7MenuService {
             [CUSTOM_CLOSE, fn]
         ]);
         const injector = new CustomInjector(this.injector, custom);
-        this.menuView.clear();
+        this.view.clear();
         if (!comp) {
             comp = this.resover.resolveComponentFactory<T>(MenuEmptyComponent as any);
         }
-        this.menuView.createComponent(comp, null, injector);
+        this.view.createComponent(comp, null, injector);
         return this.afterClose;
     }
 
     hide(data?: any) {
-        this._showMenu = false;
-        if (this.position === 'left' || this.position === 'right') {
-            this.menuPosition$.next({
+        this._show = false;
+        if (this._position === 'left' || this._position === 'right') {
+            this.next({
                 width: '0px',
             });
         } else {
-            this.menuPosition$.next({
+            this.next({
                 height: '0px',
             });
         }
         this.afterClose.next(data);
-        this.menuView && this.menuView.clear();
-        this.layout.hideMask();
+        this.view && this.view.clear();
+        this.mask.hide();
     }
 
     switchMenu() {
-        if (this._showMenu) {
+        if (this._show) {
             this.hide();
         }
     }
