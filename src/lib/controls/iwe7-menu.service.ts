@@ -1,7 +1,7 @@
 import { MenuEmptyComponent } from './../menu/menu-empty/menu-empty';
 import { Iwe7MaskService } from './iwe7-mask.service';
 import { Observable } from 'rxjs';
-import { Injector, ComponentFactoryResolver } from '@angular/core';
+import { Injector, ComponentFactoryResolver, OnDestroy, ComponentRef } from '@angular/core';
 import { ViewContainerRef, ComponentFactory } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Iwe7MenuPositionService } from './iwe7-menu-position';
@@ -9,13 +9,14 @@ import { Injectable } from '@angular/core';
 import { CustomInjector, CUSTOM_DATA, CUSTOM_CLOSE, CUSTOM_CONTROL } from 'iwe7-core';
 
 @Injectable()
-export class Iwe7MenuService extends BehaviorSubject<any> {
+export class Iwe7MenuService extends BehaviorSubject<any> implements OnDestroy {
     private _position: string = 'left';
-    private _show: boolean = false;
+    _show: boolean = false;
     beforeOpen: Subject<any> = new Subject();
     afterClose: Subject<any> = new Subject();
     view: ViewContainerRef;
     layout: any;
+    componentRef: ComponentRef<any>;
     constructor(
         public iwe7Position: Iwe7MenuPositionService,
         public injector: Injector,
@@ -36,6 +37,7 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
     show<T>(position: string = 'left', size: number = 260, comp?: ComponentFactory<T>, data?: any): Observable<any> {
         const positionObj = this.iwe7Position._menuPosition[position];
         let extObj = {};
+        this._show = true;
         if (position === 'left' || position === 'right') {
             extObj = {
                 width: size + 'px',
@@ -67,7 +69,7 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
         if (!comp) {
             comp = this.resover.resolveComponentFactory<T>(MenuEmptyComponent as any);
         }
-        this.view.createComponent(comp, null, injector);
+        this.componentRef = this.view.createComponent(comp, null, injector);
         return this.afterClose;
     }
 
@@ -84,6 +86,9 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
         }
         this.afterClose.next(data);
         this.view && this.view.clear();
+        if (this.componentRef) {
+            this.componentRef.destroy();
+        }
         this.mask.hide();
     }
 
@@ -92,5 +97,9 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
             this.hide();
         }
     }
-}
 
+    ngOnDestroy() {
+        this._show = false;
+        this.complete();
+    }
+}
