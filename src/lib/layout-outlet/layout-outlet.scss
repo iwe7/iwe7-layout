@@ -7,10 +7,15 @@
   bottom: 0px;
   display: flex;
   flex-direction: column;
-  --headerHeight: 45px;
-  --footerHeight: 45px;
+  --headerHeight: 0px;
+  --footerHeight: 0px;
   --maskDisplay: none;
   --menuWidth: 0px;
+  --height: 0px;
+  --width: 0px;
+  --left: 0px;
+  --right: 0px;
+  --top: 0px;
 }
 
 .layout-body {
@@ -68,7 +73,6 @@
   height: var(--height);
   right: var(--right);
   background: #fff;
-  box-shadow: 1px 1px 8px #434343;
   z-index: 2;
   transition: var(--transition) .3s ease-out;
   overflow: hidden;

@@ -1,4 +1,4 @@
-import { Iwe7MenuPositionService } from './../controls/iwe7-menu-position';
+import { HostBinding } from '@angular/core';
 import { Iwe7HeaderService } from './../controls/iwe7-header.service';
 import { Iwe7FooterService } from './../controls/iwe7-footer.service';
 import { Iwe7MaskService } from './../controls/iwe7-mask.service';
@@ -10,18 +10,19 @@ import {
     Component, Input, ElementRef,
     ViewContainerRef, ViewChild, ComponentFactory
 } from '@angular/core';
-
+let layoutOutletZIndex: number = 10;
 @Component({
-    selector: 'layout-outlet',
+    selector: 'layout-outlet,layout,iwe7-layout',
     templateUrl: 'layout-outlet.html',
     styleUrls: ['./layout-outlet.scss'],
     providers: [
         Iwe7MenuService,
         Iwe7MaskService,
         Iwe7HeaderService,
-        Iwe7FooterService
+        Iwe7FooterService,
+        Iwe7IcssService
     ],
-    exportAs: 'layoutOutlet'
+    exportAs: 'layoutOutlet,layout,iwe7Layout'
 })
 export class LayoutOutletComponent extends BehaviorSubject<any> {
     _headerHeight: string = '45px';
@@ -61,6 +62,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         this.menu.setView(val);
     }
 
+    @HostBinding('style.z-index') zIndex: number = layoutOutletZIndex;
+
     constructor(
         public icss: Iwe7IcssService,
         public ele: ElementRef,
@@ -72,6 +75,7 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
 
     ) {
         super({});
+        this.menu.setLayout(this);
         header.subscribe(res => {
             if (res) {
                 this.next({
@@ -108,6 +112,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         this.menu.subscribe(res => {
             this.next(res);
         });
+        layoutOutletZIndex += 1;
+        this.zIndex = layoutOutletZIndex;
         this.icss.init(this, this.ele).subscribe();
     }
 

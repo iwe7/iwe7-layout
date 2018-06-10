@@ -6,7 +6,7 @@ import { ViewContainerRef, ComponentFactory } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Iwe7MenuPositionService } from './iwe7-menu-position';
 import { Injectable } from '@angular/core';
-import { CustomInjector, CUSTOM_DATA, CUSTOM_CLOSE } from 'iwe7-core';
+import { CustomInjector, CUSTOM_DATA, CUSTOM_CLOSE, CUSTOM_CONTROL } from 'iwe7-core';
 
 @Injectable()
 export class Iwe7MenuService extends BehaviorSubject<any> {
@@ -15,17 +15,22 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
     beforeOpen: Subject<any> = new Subject();
     afterClose: Subject<any> = new Subject();
     view: ViewContainerRef;
+    layout: any;
     constructor(
         public iwe7Position: Iwe7MenuPositionService,
         public injector: Injector,
         public resover: ComponentFactoryResolver,
         public mask: Iwe7MaskService
-    ) { 
+    ) {
         super(false);
     }
 
     setView(view: ViewContainerRef) {
         this.view = view;
+    }
+
+    setLayout(layout: any) {
+        this.layout = layout;
     }
 
     show<T>(position: string = 'left', size: number = 260, comp?: ComponentFactory<T>, data?: any): Observable<any> {
@@ -54,7 +59,8 @@ export class Iwe7MenuService extends BehaviorSubject<any> {
         };
         const custom = new WeakMap<any, any>([
             [CUSTOM_DATA, data],
-            [CUSTOM_CLOSE, fn]
+            [CUSTOM_CLOSE, fn],
+            [CUSTOM_CONTROL, this.layout]
         ]);
         const injector = new CustomInjector(this.injector, custom);
         this.view.clear();
