@@ -5,4 +5,8 @@ export class Iwe7LoadingService extends CoreShowHide {
     constructor() {
         super();
     }
+
+    showColor(color: any) {
+        this.next(color);
+    }
 }

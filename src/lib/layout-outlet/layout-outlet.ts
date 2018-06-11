@@ -84,7 +84,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         loading.subscribe(res => {
             if (res) {
                 this.next({
-                    loadingDisplay: 'block'
+                    loadingDisplay: 'block',
+                    loadingColor: res === true ? '#000' : res
                 });
             } else {
                 this.next({
@@ -168,8 +169,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         return this.menu;
     }
 
-    showLoading() {
-        this.loading.show();
+    showLoading(color: string) {
+        this.loading.showColor(color ? color : true);
     }
 
     hideLoading() {
