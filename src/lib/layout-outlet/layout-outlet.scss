@@ -90,7 +90,7 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--maskBackground);
   z-index: 1;
   overflow: hidden;
   transition: all .3s ease-out;
