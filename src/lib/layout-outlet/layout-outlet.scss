@@ -95,14 +95,14 @@
   overflow: hidden;
   transition: all .3s ease-out;
   display: var(--maskDisplay);
-}
-
-.layout-loading {
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+}
+
+.layout-loading {
   display: var(--loadingDisplay);
+  .icon-loading {
+    font-size: 35px;
+  }
 }

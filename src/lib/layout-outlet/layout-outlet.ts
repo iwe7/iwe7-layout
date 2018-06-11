@@ -115,7 +115,7 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         mask.subscribe(res => {
             if (res) {
                 this.next({
-                    maskDisplay: 'block'
+                    maskDisplay: 'flex'
                 });
             } else {
                 this.next({
