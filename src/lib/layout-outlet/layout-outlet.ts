@@ -1,10 +1,9 @@
 import { Iwe7LoadingService } from './../controls/iwe7-loading.service';
-import { HostBinding } from '@angular/core';
+import { HostBinding, Optional, SkipSelf } from '@angular/core';
 import { Iwe7HeaderService } from './../controls/iwe7-header.service';
 import { Iwe7FooterService } from './../controls/iwe7-footer.service';
 import { Iwe7MaskService } from './../controls/iwe7-mask.service';
 import { Iwe7MenuService } from './../controls/iwe7-menu.service';
-
 import { Iwe7IcssService } from 'iwe7-icss';
 import { BehaviorSubject } from 'rxjs';
 
@@ -75,7 +74,10 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         public mask: Iwe7MaskService,
         public header: Iwe7HeaderService,
         public footer: Iwe7FooterService,
-        public loading: Iwe7LoadingService
+        public loading: Iwe7LoadingService,
+        @Optional()
+        @SkipSelf()
+        public parent: LayoutOutletComponent
     ) {
         super({});
         this.menu.setLayout(this);
