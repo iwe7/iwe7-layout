@@ -1,3 +1,4 @@
+import { Iwe7LoadingService } from './../controls/iwe7-loading.service';
 import { HostBinding } from '@angular/core';
 import { Iwe7HeaderService } from './../controls/iwe7-header.service';
 import { Iwe7FooterService } from './../controls/iwe7-footer.service';
@@ -6,6 +7,7 @@ import { Iwe7MenuService } from './../controls/iwe7-menu.service';
 
 import { Iwe7IcssService } from 'iwe7-icss';
 import { BehaviorSubject } from 'rxjs';
+
 import {
     Component, Input, ElementRef,
     ViewContainerRef, ViewChild, ComponentFactory
@@ -20,7 +22,8 @@ let layoutOutletZIndex: number = 10;
         Iwe7MaskService,
         Iwe7HeaderService,
         Iwe7FooterService,
-        Iwe7IcssService
+        Iwe7IcssService,
+        Iwe7LoadingService
     ],
     exportAs: 'layoutOutlet,layout,iwe7Layout'
 })
@@ -72,10 +75,21 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         public mask: Iwe7MaskService,
         public header: Iwe7HeaderService,
         public footer: Iwe7FooterService,
-
+        public loading: Iwe7LoadingService
     ) {
         super({});
         this.menu.setLayout(this);
+        loading.subscribe(res => {
+            if (res) {
+                this.next({
+                    loadingDisplay: 'block'
+                });
+            } else {
+                this.next({
+                    loadingDisplay: 'none'
+                });
+            }
+        });
         header.subscribe(res => {
             if (res) {
                 this.next({

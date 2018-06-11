@@ -7,6 +7,7 @@
   bottom: 0px;
   display: flex;
   flex-direction: column;
+  --loadingDisplay: none;
   --headerHeight: 0px;
   --footerHeight: 0px;
   --maskDisplay: none;
@@ -94,4 +95,14 @@
   overflow: hidden;
   transition: all .3s ease-out;
   display: var(--maskDisplay);
+}
+
+.layout-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  display: var(--loadingDisplay);
 }
