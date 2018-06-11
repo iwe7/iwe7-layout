@@ -102,7 +102,7 @@
     display: var(--loadingDisplay);
     .icon-loading {
       font-size: 35px;
-      color: #fff;
+      color: var(--loadingColor);
     }
   }
 }
