@@ -118,7 +118,7 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
             if (res) {
                 this.next({
                     maskDisplay: 'flex',
-                    maskBackground: res === true ? 'rgba(0,0,0,5)' : res
+                    maskBackground: res === true ? 'rgba(0,0,0,.5)' : res
                 });
             } else {
                 this.next({
