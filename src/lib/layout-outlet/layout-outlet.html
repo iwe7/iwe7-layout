@@ -22,10 +22,9 @@
 
 <div class="layout-mask" (click)="hideMenu()">
   <div class="layout-mask-container">
+    <div class="layout-loading">
+      <i class="iconfont icon-loading"></i>
+    </div>
     <ng-content select="[mask]"></ng-content>
   </div>
-</div>
-
-<div class="layout-loading">
-  <i class="iconfont icon-loading"></i>
 </div>

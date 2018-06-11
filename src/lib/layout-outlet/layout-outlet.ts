@@ -161,6 +161,22 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         return this.menu;
     }
 
+    showLoading() {
+        this.loading.show();
+    }
+
+    hideLoading() {
+        this.loading.hide();
+    }
+
+    showMask() {
+        this.mask.show();
+    }
+
+    hideMask() {
+        this.mask.hide();
+    }
+
     showMenu(
         position: string = 'left',
         size: number = 260,

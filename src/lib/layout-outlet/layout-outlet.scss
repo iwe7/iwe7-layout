@@ -98,11 +98,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.layout-loading {
-  display: var(--loadingDisplay);
-  .icon-loading {
-    font-size: 35px;
+  .layout-loading {
+    display: var(--loadingDisplay);
+    .icon-loading {
+      font-size: 35px;
+      color: #fff;
+    }
   }
 }
