@@ -117,7 +117,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         mask.subscribe(res => {
             if (res) {
                 this.next({
-                    maskDisplay: 'flex'
+                    maskDisplay: 'flex',
+                    maskBackground: res === true ? 'rgba(0,0,0,5)' : res
                 });
             } else {
                 this.next({
@@ -131,6 +132,10 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         layoutOutletZIndex += 1;
         this.zIndex = layoutOutletZIndex;
         this.icss.init(this, this.ele).subscribe();
+    }
+
+    showBackground(color: string) {
+        this.mask.showBackground(color);
     }
 
     showHeader(): void {

@@ -5,4 +5,8 @@ export class Iwe7MaskService extends CoreShowHide {
     constructor() {
         super();
     }
+
+    showBackground(color: any) {
+        this.next(color);
+    }
 }
