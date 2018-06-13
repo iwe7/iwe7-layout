@@ -1,5 +1,4 @@
 :host {
-  display: block;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -46,7 +45,8 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
-    overflow: hidden;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

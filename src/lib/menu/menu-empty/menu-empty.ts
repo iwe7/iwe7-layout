@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { CustomComponent } from 'iwe7-core';
 @Component({
     selector: 'menu-empty',

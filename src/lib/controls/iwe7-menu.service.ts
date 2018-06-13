@@ -34,19 +34,19 @@ export class Iwe7MenuService extends BehaviorSubject<any> implements OnDestroy {
         this.layout = layout;
     }
 
-    show<T>(position: string = 'left', size: number = 260, comp?: ComponentFactory<T>, data?: any): Observable<any> {
+    show<T>(position: string = 'left', size: number | string = 260, comp?: ComponentFactory<T>, data?: any): Observable<any> {
         const positionObj = this.iwe7Position._menuPosition[position];
         let extObj = {};
         this._show = true;
         if (position === 'left' || position === 'right') {
             extObj = {
-                width: size + 'px',
+                width: typeof size === 'number' ? size + 'px' : size,
                 height: '100%',
                 transition: 'width'
             };
         } else {
             extObj = {
-                height: size + 'px',
+                height: typeof size === 'number' ? size + 'px' : size,
                 width: '100%',
                 transition: 'height'
             };
