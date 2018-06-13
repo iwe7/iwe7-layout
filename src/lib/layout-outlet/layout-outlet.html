@@ -6,6 +6,7 @@
 <div class="layout-body">
   <div class="layout-body-container">
     <ng-content></ng-content>
+    <activity-indicator *ngIf="_showToast" [toast]="toast" [text]="text"></activity-indicator>
   </div>
 </div>
 <div class="layout-footer">

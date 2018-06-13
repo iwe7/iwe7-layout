@@ -1,5 +1,5 @@
 import { Iwe7LoadingService } from './../controls/iwe7-loading.service';
-import { HostBinding, Optional, SkipSelf } from '@angular/core';
+import { HostBinding, Optional, SkipSelf, ChangeDetectorRef } from '@angular/core';
 import { Iwe7HeaderService } from './../controls/iwe7-header.service';
 import { Iwe7FooterService } from './../controls/iwe7-footer.service';
 import { Iwe7MaskService } from './../controls/iwe7-mask.service';
@@ -66,6 +66,10 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
 
     @HostBinding('style.z-index') zIndex: number = layoutOutletZIndex;
 
+    _showToast: boolean = false;
+    toast: boolean = false;
+    text: string = '';
+
     constructor(
         public icss: Iwe7IcssService,
         public ele: ElementRef,
@@ -77,7 +81,8 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         public loading: Iwe7LoadingService,
         @Optional()
         @SkipSelf()
-        public parent: LayoutOutletComponent
+        public parent: LayoutOutletComponent,
+        public cd: ChangeDetectorRef
     ) {
         super({});
         this.menu.setLayout(this);
@@ -194,5 +199,22 @@ export class LayoutOutletComponent extends BehaviorSubject<any> {
         this.menu.show(position, size, comp, data);
         this.mask.show();
         return this.menu;
+    }
+
+    showToast(text?: string, autoHide: boolean = true) {
+        this.text = text ? text : '';
+        this.toast = true;
+        this._showToast = true;
+        this.cd.markForCheck();
+        if (autoHide) {
+            setTimeout(() => {
+                this.hideToast();
+            }, 3000);
+        }
+    }
+
+    hideToast() {
+        this._showToast = false;
+        this.cd.markForCheck();
     }
 }
